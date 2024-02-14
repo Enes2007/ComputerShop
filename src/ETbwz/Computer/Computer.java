@@ -10,12 +10,20 @@ public class Computer {
     private String typ;
     private double einzelpreis;
 
+    private String altModell;
+
     public Computer() {
 
     }
 
-    public Computer(String hersteller, String modell, double arbeitsspeicher, String cpu, double massenspeicher, String typ, String einzelpreis) {
-
+    public Computer(String hersteller, String modell, double arbeitsspeicher, String cpu, double massenspeicher, String typ, double einzelpreis) {
+        this.hersteller = hersteller;
+        this.modell = modell;
+        this.arbeitsspeicher = arbeitsspeicher;
+        this.cpu = cpu;
+        this.massenspeicher = massenspeicher;
+        this.typ = typ;
+        this.einzelpreis = einzelpreis;
     }
 
 
@@ -74,4 +82,10 @@ public class Computer {
     public void setEinzelpreis(double einzelpreis) {
         this.einzelpreis = einzelpreis;
     }
+
+    public String getAltModell() { return altModell; }
+    public void setAltModell(String altModell) {
+        this.altModell = altModell;
+    }
+
 }

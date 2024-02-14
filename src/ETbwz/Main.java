@@ -26,19 +26,8 @@ public class Main {
         MongoDatabase database = mongoClient.getDatabase("ComputerShopDb");
         System.out.println("Credentials ::" + credential);
 
-        // 4. Creating a collection
-        // database.createCollection("sampleCollection");
-        // System.out.println("Collection created successfully");
-
-        // 5. List Databases
-        List<Document> databases = mongoClient.listDatabases().into(new ArrayList<>());
-
-        System.out.println("All databases:");
-        databases.forEach(db -> System.out.println(db));
-
-        database.createCollection("ComputerDb");
-        System.out.println("Collection created successfully");
-
+        ComputerShopApp computerShopApp = new ComputerShopApp();
+        computerShopApp.run();
 
 
 

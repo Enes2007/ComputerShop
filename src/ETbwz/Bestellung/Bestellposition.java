@@ -1,17 +1,19 @@
 package ETbwz.Bestellung;
 
-public class Bestellpositionen {
+import ETbwz.Computer.Computer;
+
+public class Bestellposition {
 
     private double preis;
     private int pieces;
 
-
-    public Bestellpositionen() {
+    public Bestellposition() {
 
     }
 
-    public Bestellpositionen(double preis, int pieces) {
-
+    public Bestellposition(double preis, int pieces) {
+        this.preis = preis;
+        this.pieces = pieces;
     }
 
     public double getPreis() {
@@ -29,4 +31,5 @@ public class Bestellpositionen {
     public void setPieces(int pieces) {
         this.pieces = pieces;
     }
+
 }

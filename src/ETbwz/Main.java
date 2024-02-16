@@ -12,21 +12,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
-
-
-        // 2. Creating Credentials
-        MongoCredential credential;
-        credential = MongoCredential.createCredential("Enes", "ComputerShopDb",
-                "password".toCharArray());
-
-        System.out.println("Connected to the database successfully");
-
-        // 3. Accessing the database
-        MongoDatabase database = mongoClient.getDatabase("ComputerShopDb");
-        System.out.println("Credentials ::" + credential);
-
         ComputerShopApp computerShopApp = new ComputerShopApp();
+
         computerShopApp.run();
 
 

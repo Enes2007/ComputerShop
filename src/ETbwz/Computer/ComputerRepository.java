@@ -5,29 +5,24 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.mongodb.client.model.Filters.eq;
 
 public class ComputerRepository implements IComputerRepository {
-
-    ArrayList<Computer> computers;
 
     public List<Computer> getAll() {
 
         MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
 
-
         MongoDatabase database = mongoClient.getDatabase("ComputerShopDb");
 
         MongoCollection<Document> collection=database.getCollection("ComputerDb");
+
 
         FindIterable<Document> iterDoc=collection.find();
         int i=1;
@@ -50,8 +45,11 @@ public class ComputerRepository implements IComputerRepository {
         MongoDatabase database = mongoClient.getDatabase("ComputerShopDb");
 
         MongoCollection<Document> collection=database.getCollection("ComputerDb");
+
         FindIterable<Document> iterDoc=collection.find(Filters.eq("_id", new ObjectId(ComputerId)));
         int i=1;
+
+
 
         Iterator it = iterDoc.iterator();
         while(it.hasNext()){
@@ -59,8 +57,22 @@ public class ComputerRepository implements IComputerRepository {
             i++;
         }
 
+        Document doc = collection.find(Filters.eq("_id", new ObjectId(ComputerId))).first();
+        if (doc != null) {
+            String hersteller = doc.getString("Hersteller");
+            String modell = doc.getString("Modell");
+            double arbeitsspeicher = doc.getDouble("Arbeitsspeicher [GB]");
+            String cpu = doc.getString("CPU");
+            double massenspeicher = doc.getDouble("Massenspeicher [GB]");
+            String typ = doc.getString("Typ");
+            double einzelpreis = doc.getDouble("Einzelpreis");
 
-    return  null;
+            return new Computer(hersteller, modell, arbeitsspeicher, cpu, massenspeicher, typ, einzelpreis);
+        } else {
+            System.out.println("Computer mit der angegebenen ID wurde nicht gefunden.");
+        }
+        return null;
+
     }
 
     public void insert(Computer computer) {
@@ -117,8 +129,23 @@ public class ComputerRepository implements IComputerRepository {
         collection.deleteOne(filter);
     }
 
-    public void save() {
+    public String getModellById(String ComputerId) {
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
+        MongoDatabase database = mongoClient.getDatabase("ComputerShopDb");
+        MongoCollection<Document> collection = database.getCollection("ComputerDb");
 
+        FindIterable<Document> iterDoc = collection.find(Filters.eq("_id", new ObjectId(ComputerId)));
+        Iterator it = iterDoc.iterator();
+
+        String modell = null;
+        if (it.hasNext()) {
+            Document doc = (Document) it.next();
+            modell = doc.getString("Modell");
+
+        }
+
+        return modell;
     }
+
 
 }

@@ -9,7 +9,6 @@ public interface IComputerRepository {
     void insert(Computer computer);
     void update(Computer computer, String ComputerId);
     void delete(String ComputerId);
-    void save();
 
 
 

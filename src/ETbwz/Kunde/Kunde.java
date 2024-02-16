@@ -1,6 +1,7 @@
 package ETbwz.Kunde;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Kunde {
     private String gender;
@@ -10,6 +11,7 @@ public class Kunde {
     private String email;
     private String sprache;
     private LocalDate geburtsdatum;
+    private Adresse adresse;
 
 
     public Kunde() {
@@ -17,8 +19,15 @@ public class Kunde {
     }
 
 
-    public Kunde(String gender, String nachname, String vorname, String telefon, String email, String sprache, LocalDate geburtsdatum) {
-
+    public Kunde(String gender, String nachname, String vorname, String telefon, String email, String sprache, LocalDate geburtsdatum, Adresse adresse) {
+        this.gender = gender;
+        this.nachname = nachname;
+        this.vorname = vorname;
+        this.telefon = telefon;
+        this.email = email;
+        this.sprache = sprache;
+        this.geburtsdatum = geburtsdatum;
+        this.adresse = adresse;
     }
 
     public String getGender() {
@@ -73,7 +82,15 @@ public class Kunde {
         return geburtsdatum;
     }
 
-    public void setGeburtsdatum(LocalDate geburtsdatum) {
-        this.geburtsdatum = geburtsdatum;
+    public void setGeburtsdatum(String geburtsdatum) {
+        this.geburtsdatum = LocalDate.parse(geburtsdatum, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    }
+
+    public Adresse getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(Adresse adresse) {
+        this.adresse = adresse;
     }
 }

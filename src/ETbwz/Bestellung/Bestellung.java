@@ -9,7 +9,6 @@ public class Bestellung {
 
     private int bestellnummer;
     private LocalDate bestelldatum;
-    private Bestellposition bestellposition;
 
     private List<Bestellposition> bestellpositionen;
 
@@ -19,10 +18,10 @@ public class Bestellung {
     }
 
 
-    public Bestellung(int bestellnummer, LocalDate bestelldatum, Bestellposition bestellposition) {
+    public Bestellung(int bestellnummer, LocalDate bestelldatum, List<Bestellposition> bestellpositionen) {
         this.bestellnummer = bestellnummer;
         this.bestelldatum = bestelldatum;
-        this.bestellposition = bestellposition;
+        this.bestellpositionen = bestellpositionen;
     }
 
 
@@ -53,12 +52,12 @@ public class Bestellung {
         return total;
     }
 
-    public Bestellposition getBestellposition() {
-        return bestellposition;
+    public void addBestellposition(Bestellposition bestellposition) {
+        this.bestellpositionen.add(bestellposition);
     }
 
-    public void setBestellposition(Bestellposition bestellposition) {
-        this.bestellposition = bestellposition;
+    public void removeBestellposition(Bestellposition bestellposition) {
+        this.bestellpositionen.remove(bestellposition);
     }
 
     public List<Bestellposition> getBestellpositionen() {

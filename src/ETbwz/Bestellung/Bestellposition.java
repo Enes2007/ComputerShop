@@ -1,7 +1,5 @@
 package ETbwz.Bestellung;
 
-import ETbwz.Computer.Computer;
-
 public class Bestellposition {
 
     private double preis;

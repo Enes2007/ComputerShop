@@ -10,9 +10,9 @@ import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 public class BestellungRepository implements IBestellungRepository{
 
@@ -60,33 +60,38 @@ public class BestellungRepository implements IBestellungRepository{
 
 
 
-    public void insert(Bestellung bestellung, String ComputerId, Bestellposition bestellposition) {
+    public void insert(Bestellung bestellung, String ComputerId, List<Bestellposition> bestellpositionen) {
 
-        MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
-
-
+        MongoClient mongoClient = new MongoClient("localhost", 27017);
         MongoDatabase database = mongoClient.getDatabase("ComputerShopDb");
-
-        MongoCollection<Document> collection=database.getCollection("BestellungDb");
+        MongoCollection<Document> collection = database.getCollection("BestellungDb");
 
         ComputerRepository computerRepository = new ComputerRepository();
         Computer computer = computerRepository.getById(ComputerId);
         String computerModell = (computer.getHersteller() + " " + computer.getModell());
-        double computerPreis = computer.getEinzelpreis();
-        bestellposition.setPreis(computerPreis);
-        double netto = bestellposition.getPreis() * bestellposition.getPieces();
+        double netto = 0;
 
-        Document document=new Document("Bestellnummer", bestellung.getBestellnummer())
-                .append("Bestelldatum",bestellung.getBestelldatum())
-                .append("Bestellposition", new Document()
-                        .append("Modell", computerModell)
-                        .append("Stück", bestellposition.getPieces())
-                        .append("Preis", computerPreis))
+        List<Document> bestellpositionenDocuments = new ArrayList<>();
+        for (Bestellposition bestellposition : bestellpositionen) {
+            double computerPreis = computer.getEinzelpreis();
+            bestellposition.setPreis(computerPreis);
+            double positionNetto = bestellposition.getPreis() * bestellposition.getPieces();
+            netto += positionNetto;
+
+            Document bestellpositionDocument = new Document()
+                    .append("Modell", computerModell)
+                    .append("Stück", bestellposition.getPieces())
+                    .append("Preis", computerPreis);
+            bestellpositionenDocuments.add(bestellpositionDocument);
+        }
+
+        Document document = new Document("Bestellnummer", bestellung.getBestellnummer())
+                .append("Bestelldatum", bestellung.getBestelldatum())
+                .append("Bestellpositionen", bestellpositionenDocuments)
                 .append("Total", netto);
 
         collection.insertOne(document);
         System.out.println("Bestellung wurde erfolgreich hinzugefügt.");
-
     }
 
 
@@ -94,10 +99,7 @@ public class BestellungRepository implements IBestellungRepository{
     public void update(Bestellung bestellung, String ComputerId, Bestellposition bestellposition, int bestellnummer) {
 
         MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
-
-
         MongoDatabase database = mongoClient.getDatabase("ComputerShopDb");
-
         MongoCollection<Document> collection=database.getCollection("BestellungDb");
 
         ComputerRepository computerRepository = new ComputerRepository();

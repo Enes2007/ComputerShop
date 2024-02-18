@@ -16,7 +16,7 @@ import java.util.List;
 
 public class BestellungRepository implements IBestellungRepository{
 
-    public List<Computer> getAll() {
+    public List<Bestellung> getAll() {
 
         MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
 
@@ -37,7 +37,7 @@ public class BestellungRepository implements IBestellungRepository{
         return null;
     }
 
-    public Computer getById(int bestellnummer) {
+    public Bestellung getById(int bestellnummer) {
 
         MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
 
